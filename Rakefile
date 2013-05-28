@@ -81,6 +81,11 @@ def update_files(aws_creds, bucket_name, root_directory, file_list, destination_
   end
 end
 
+# Clones a branch. If clone_name is a directory will name the clone the same as the source.
+def get_clone_branch(branch, source_repo, clone_name)
+  system "git clone -b #{branch} #{source_repo} clone_name"
+end
+
 desc 'Input and save AWS credentials, call this if you want to change your creds.'
 task :add_aws_credentials do
   puts "Couldn't find your AWS keys stored locally. I'll do that now."
@@ -109,6 +114,7 @@ desc 'Deploy to staging'
 task :deploy_staging => aws_key_file_name do
 
   # do a git clone of the staging branch to /tmp
+  git_clone_branch(:staging)
 
   # Make a list of the files to upload
   files = get_file_list(website_directory)
