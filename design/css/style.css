@@ -1,0 +1,93 @@
+body { font-family: "Arial", "Verdana", sans-serif; font-size: 15px; }
+h1, h3 { font-family: "Square Serif Book", Georgia, 'Times New Roman', Times, serif; font-weight: normal; }
+h1 { font-size: 44px; }
+h3 { font-size: 18px; }
+a { text-decoration: none; }
+
+.blue { color: #005983; }
+.center { text-align: center; }
+.right { text-align: right; }
+.bigBackground { background-repeat: no-repeat; background-position: center center; background-attachment: fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover }
+
+.section { padding: 50px 0; border-bottom: 1px solid #cccccc; }
+.section:first-child { padding-top: 0; }
+.section:last-child { padding-bottom: 20px; border-bottom: none; }
+
+
+/* Page Elements */
+
+.bgHeader .logo { padding: 20px 10px; background-color: #005983; }
+.bgHeader .navLink { float: right; padding: 30px; font-family: Arial, Verdana, sans-serif; font-size: 13px; font-weight: bold; color: #888888; }
+.bgHeader .navLink:first-child { padding-right: 0; }
+
+.bgThreeColumn { padding: 80px 0; }
+.bgThreeColumn h2 { margin: 20px 0; font-size: 14px; }
+.bgThreeColumn p { margin: 30px 0; line-height: 150%; text-align: justify; }
+
+.bgLargeLeftColumn { padding: 90px 0; }
+.bgLargeLeftColumn h2 { line-height: 150%; font-size: 28px; font-weight: normal; }
+.bgLargeLeftColumn p { line-height: 140%; }
+
+.productContactUs { padding: 130px 0; }
+.productContactUs .button { padding: 5px; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px; background-color: #7fc0ff; color: #ffffff; }
+
+.bgFooter { padding: 30px; line-height: 125%; background-color: #666666; color: white; }
+.bgFooter ul { padding-bottom: 20px; }
+.bgFooter ul .header, .bgFooter ul .strong { font-weight: bold; }
+.bgFooter ul li { padding: 3px 0; font-size: 13px; }
+.bgFooter ul li img { padding-right: 2px; vertical-align: middle; }
+.bgFooter p { font-size: 13px; }
+
+
+/* Index Page Elements */
+
+.indexHeader h3 { margin: 60px 0 20px 0; }
+.indexHeader .navLink:hover { color: #005983; }
+
+.indexProducts { background-image: url('../img/bg1.jpg'); color: white; }
+.indexProducts a.tab, .bgProducts a.tab:hover { color: #fff; }
+.indexProducts .tab { display: block; position: relative; margin: 10px; width: 300px; height: 180px; }
+.indexProducts .tab h2 { position: absolute; bottom: 15px; width: 300px; text-align: center; font-size: 14px; }
+.indexProducts .aos { background-color: #4c6a84; }
+.indexProducts .sedna { background-color: #7fc0ff; }
+.indexProducts .fleet { background-color: #67beb5; }
+.indexProducts .disbursement { background-color: #a6bddc; }
+.indexProducts .pqms { background-color: #5f717f; }
+.indexProducts .vrs { background-color: #237368; }
+
+.indexLetUsHelpYou { background-image: url('../img/bg2.jpg'); color: white; }
+.indexLetUsHelpYou h1 { margin-bottom: 50px; }
+
+.indexCustomers { background-color: #eeeeee; }
+
+.indexOthers { padding-bottom: 30px; }
+.indexOthers .quote { padding: 30px; border-bottom: 3px dotted #888888; }
+.indexOthers .quote:last-child { border-bottom: none; }
+.indexOthers .quote .message { line-height: 150%; font-size: 28px; }
+.indexOthers .quote .person { line-height: 150%; font-size: 16px; color: #888888; }
+
+
+/* SEDNA Page Elements */
+
+.sednaHeader { background-image: url('../img/sedna/bg.jpg'); }
+.sednaHeader { padding-bottom: 0; }
+.sednaHeader .banner { padding-top: 60px; }
+.sednaHeader .navLink:hover { color: #ffffff; }
+
+.sednaInfo { background: url('../img/sedna/bg_grid.png'); }
+.sednaInfo h2 { font-size: 24px; }
+.sednaInfo p { text-align: center; }
+
+.sednaEvolve { background-color: #ffffff; }
+.sednaEvolve h2 { font-size: 28px; font-weight: normal; }
+.sednaEvolve p { margin: 0; }
+
+.sednaCollaborate { background-color: #ffffff; }
+.sednaCollaborate img { border: 1px solid #cccccc; }
+.sednaCollaborate h2, .sednaCollaborate p { padding-left: 10px; }
+.sednaCollaborate p { margin-top: 20px; }
+
+.sednaEfficiency { background-color: #eeeeee; }
+.sednaEfficiency img { border: 1px solid #cccccc; }
+.sednaEfficiency h2 { font-weight: normal; font-size: 28px; }
+.sednaEfficiency p { margin-top: 20px; }
