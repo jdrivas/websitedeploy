@@ -1,10 +1,13 @@
 require 'highline/import'
 require 'json'
 require 'aws-sdk'
+require 'fileutils'
 
 # Configuration paramaters
 # TODO: Should move this into a config file.
-website_directory = "./design"
+source_repo = "git@github.com:jdrivas/websitedeploy.git"
+source_directory = "design"
+# website_directory = "./design"
 website_staging_bucket = "staging.website.stage3systems.net"
 website_production_bucket = ""
 
@@ -55,7 +58,8 @@ end
 
 desc "Show the list of files that will be deployed to S3"
 task :show_file_list do
-  files = get_file_list(website_directory)
+  puts "files collected from: #{source_directory}"
+  files = get_file_list(source_directory)
   files.each {|f| puts f}
 end
 
@@ -82,8 +86,9 @@ def update_files(aws_creds, bucket_name, root_directory, file_list, destination_
 end
 
 # Clones a branch. If clone_name is a directory will name the clone the same as the source.
-def get_clone_branch(branch, source_repo, clone_name)
-  system "git clone -b #{branch} #{source_repo} clone_name"
+def git_clone_branch(branch, source_repo, clone_name)
+  puts "Clonning #{source_repo} to #{clone_name}"
+  system "git clone -b #{branch} #{source_repo} #{clone_name}"
 end
 
 desc 'Input and save AWS credentials, call this if you want to change your creds.'
@@ -114,17 +119,20 @@ desc 'Deploy to staging'
 task :deploy_staging => aws_key_file_name do
 
   # do a git clone of the staging branch to /tmp
-  git_clone_branch(:staging)
+  tmp_clone = "/tmp/staging_clone"
+  website_source = tmp_clone + "/" + source_directory
+  git_clone_branch(:staging, source_repo, tmp_clone)
 
   # Make a list of the files to upload
-  files = get_file_list(website_directory)
+  files = get_file_list(website_source)
 
   # upload the files.
   keys = get_keys(aws_key_file_name)
-  update_files(keys, website_staging_bucket, website_directory, files)
+  update_files(keys, website_staging_bucket, website_source, files)
 
-  # Don't forget to figure out what metadata needs to be configured with it.
-  # keys = get_keys(aws_key_file_name)
+  # remove the tmp clone
+  puts "Removing: #{tmp_clone}"
+  FileUtils.rm_rf tmp_clone
 
 end
 
