@@ -6,13 +6,16 @@ require 'fileutils'
 # Configuration paramaters
 # TODO: Should move this into a config file.
 source_repo = "git@github.com:jdrivas/websitedeploy.git"
-source_directory = "design"
-# website_directory = "./design"
+source_directory = "site"
 website_staging_bucket = "staging.website.stage3systems.net"
-website_production_bucket = ""
+website_production_bucket = "stage3systems.com"
 
 # Internal configuration
 aws_key_file_name = ".aws_credentials"
+
+#
+# Key Management
+#
 
 # save the two AWS keys as JSON in the key_file
 def save_keys(file_name, key_id, secret_key)
@@ -30,6 +33,10 @@ def get_keys(file_name)
   keys_json = File.open(file_name, "r").read
   parsed = JSON.parse(keys_json)
 end
+
+#
+# File list
+#
 
 # Create a file list of files that will be loaded up to S3 as a website.
 # Take a directory and recurse down to get the list.
@@ -64,6 +71,10 @@ task :show_file_list do
   files.each {|f| puts f}
 end
 
+#
+# S3 Update
+#
+
 # TODO: investigate updates for Metadata.
 # copy the files up to the bucket.
 def update_files(aws_creds, bucket_name, root_directory, file_list, destination_folder=nil)
@@ -86,8 +97,13 @@ def update_files(aws_creds, bucket_name, root_directory, file_list, destination_
   end
 end
 
+#
+# Git clone
+#
+
 # Clones a branch. If clone_name is a directory will name the clone the same as the source.
 def git_clone_branch(branch, source_repo, clone_name)
+  FileUtils.rm_rf clone_name if Pathname.new(clone_name).directory?
   puts "Clonning #{source_repo} to #{clone_name}"
   system "git clone -b #{branch} #{source_repo} #{clone_name}"
 end
@@ -139,6 +155,19 @@ end
 
 desc 'Deploy to production'
 task :deploy_production => aws_key_file_name do
+
+  tmp_clone = "/tmp/production_clone"
+  website_source = tmp_clone + "/" + source_directory
+  git_clone_branch(:production, source_repo, tmp_clone)
+
+  file = get_file_list(website_source)
+
+  keys = get_keys(aws_key_file_name)
+
+  update_files(keys, website_production_bucket, website_source, files)
+
+  puts "Remove #{temp_clone}"
+  FileUtils.rm_rf tmp_clone
 
 end
 

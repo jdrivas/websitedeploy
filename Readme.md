@@ -8,7 +8,7 @@ Deployment needs two things: 1. Committing any changes to the appropriate git br
 
 ## Local Setup & Prerequisites
 
-### Machine setup
+### Local Environment Setup
 Rake is a ruby tool and the Rakefile relies on a few libraries to get the job done, like the Amazon AWS APi for Ruby. If you're on a mac you're almost all set. On the mac `ruby` and `rake` are installed. So is the ruby package manager `gem`. If you're on linux you'll need to ensure you've got a ruby installed. If you're on Windows there is no hope. In addition this assumed you've got `git` installed and can talk to the Stage 3 Systems github account. 
 
 There is additional tool that you will have to install. Bundler is used to specify which ruby packages a particular installation might need. Given that you've got ruby installed you can install bundler with: 
@@ -57,6 +57,9 @@ A deployment happens from the latest version of a git branch. The idea is to mak
 You can go about this anyway you want, but the recommended practice is to follow a [gitflow](http://nvie.com/posts/a-successful-git-branching-model/) like branching model without adhering to the precise gitflow conventions. For deployment there are only two required branches: *production* and *staging*. The idea would be to work in a *feature* or *development* branch until it's ready for review, merge the *development* branch into *staging* and deploy to staging for review. Once reviews are over and it's ready to go to live, merge the finished *staging* branch into *production* and deploy to production. On deployment to production the site it's live.
 
 ### Deploying
+
+#### Commands
+
 As said above, there are two steps to deployment, first push the appropriate branch to the github master repo, then use rake to deploy.
 
 For Staging this looks like:
@@ -75,7 +78,25 @@ prompt> git push origin production
 prompt> rake deploy_production
 ```
 
-An important detail is that the deploy command brings over a clean version of the appropriate into a temporary directory to do the copy of files over into the S3 file system. The website itself is pretty small, but should you run into problems check to see if you're running out of disk space. 
+#### URLs
+
+DNS has been manipulated so that the URLS are now
+
+staging     staging.website.stage3systems.net
+production  stage3systems.com, www.stage3systems.com
+
+Both of these are publicly readable. 
+
+##### Production Note
+Actually this bit about production is currently a little white lie. We haven't yet transitioned over from the existing website to the new static website. So the DNS hasn't been told to resolve stage3systems.com to S3. It currently points to our Wordpress hosting on Media Temple. When we are ready to properly deploy we will appropriately migrate our DNS to enable the root domain name and the www version.
+Until then you can deploy to production, and the url you can use to see the result is:
+
+`stage3systems.com.s3-website-us.east-1.amazonaws.com`
+
+##### Other Notes
+
+An important detail: the deploy commands brings over a clean version of the appropriate repo into a temporary directory to copy files into AWS S3 storage. The website itself is pretty small, but should you run into problems check to see if you're running out of disk space. 
+
 
 A better solution for deployment would be to use a git-hook to automatically deploy to S3 whenever a git push was done to either the production or staging branches of the master github repo. Github supports a [mechanism](https://help.github.com/articles/post-receive-hooks) that will send a message to a web-service when a push to the repo has occured. To make use of this we'd have to implement the web-service on a running machine that took the message from github then did the pull from the master repo and then copied the files up to S3. We may do that latter, it would be a nice start to a more general deployment service for Stage 3 Systems.
 
