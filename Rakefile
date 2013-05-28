@@ -160,7 +160,7 @@ task :deploy_production => aws_key_file_name do
   website_source = tmp_clone + "/" + source_directory
   git_clone_branch(:production, source_repo, tmp_clone)
 
-  file = get_file_list(website_source)
+  files = get_file_list(website_source)
 
   keys = get_keys(aws_key_file_name)
 
