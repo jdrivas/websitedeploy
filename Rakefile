@@ -22,6 +22,7 @@ def save_keys(file_name, key_id, secret_key)
       "aws_secret_key" => secret_key
       }.to_json)
   end
+  Pathname.new(file_name).chmod(0600)
 end
 
 # Read the keys back and return them in a hash.
